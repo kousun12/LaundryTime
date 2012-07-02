@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="washers">WASHERS</string>
+    <string name="available">AVAILABLE:</string>
+    <string name="dryers">DRYERS</string>
+    <string name="expected_wait">EXPECTED WAIT TIME:</string>
+    <string name="app_name">Laundry Time UIUC</string>
+    <color name="perfect_gray">#313131</color>
+
+</resources>
