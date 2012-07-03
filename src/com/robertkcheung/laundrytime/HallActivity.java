@@ -69,14 +69,12 @@ public class HallActivity extends Activity {
 		private final ProgressDialog pd = new ProgressDialog(HallActivity.this);
 		 
 	      // can use UI thread here
-	      @SuppressWarnings("unchecked")
 		protected void onPreExecute() {
 	         this.pd.setMessage(" Loading Hall Info...");
 	         this.pd.show();
 	      }
 	      
 		protected Void doInBackground(Void... ars) {
-			 // TODO    4 new activity with custom adapter to show schedules
 	    	 try {
 	    		HttpClient client = new DefaultHttpClient();
 				HttpGet get = new HttpGet("http://robertkcheung.com/laundrytime/laundry.php?request=GetHallList");
@@ -103,7 +101,6 @@ public class HallActivity extends Activity {
 	    	 return null;
 	     }
 
-	     @SuppressWarnings("unchecked")
 		protected void onProgressUpdate(Hall... progress) {
 	    	 //((ArrayAdapter<Hall>)getListAdapter()).add(progress[0]);
 	    	 }
