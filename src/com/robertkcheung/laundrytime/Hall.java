@@ -11,6 +11,13 @@ public class Hall implements Serializable{
     public String washers_in_use;
     public String dryers_in_use;
 
+    public Hall(String num, String t) {
+        super();
+          hall_number = num;
+          title = t;
+
+        }
+    
     public Hall(String num, String t, String aw, String ad, String wiu, String diu) {
     super();
       hall_number = num;

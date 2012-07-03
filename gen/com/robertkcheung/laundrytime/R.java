@@ -22,18 +22,22 @@ public final class R {
         public static final int washer2=0x7f020005;
     }
     public static final class id {
-        public static final int dryerProgress=0x7f070006;
-        public static final int numDryers=0x7f070004;
-        public static final int numWashers=0x7f070001;
-        public static final int reloadButton=0x7f070007;
-        public static final int textViewHall=0x7f070000;
-        public static final int timeRemaining=0x7f070002;
-        public static final int timeRemaining2=0x7f070005;
-        public static final int washerProgress=0x7f070003;
+        public static final int dryerProgress=0x7f070007;
+        public static final int numDryers=0x7f070005;
+        public static final int numWashers=0x7f070002;
+        public static final int reloadButton=0x7f070009;
+        public static final int savePrefBtn=0x7f070008;
+        public static final int setPrefbtn=0x7f070000;
+        public static final int textViewHall=0x7f070001;
+        public static final int timeRemaining=0x7f070003;
+        public static final int timeRemaining2=0x7f070006;
+        public static final int washerProgress=0x7f070004;
     }
     public static final class layout {
-        public static final int list_item=0x7f030000;
-        public static final int main=0x7f030001;
+        public static final int first=0x7f030000;
+        public static final int list_item=0x7f030001;
+        public static final int main=0x7f030002;
+        public static final int radiolist=0x7f030003;
     }
     public static final class menu {
         public static final int menu=0x7f060000;
@@ -43,6 +47,9 @@ public final class R {
         public static final int available=0x7f040001;
         public static final int dryers=0x7f040002;
         public static final int expected_wait=0x7f040003;
+        public static final int firsttime=0x7f040007;
+        public static final int setprefs=0x7f040006;
         public static final int washers=0x7f040000;
+        public static final int welcome=0x7f040005;
     }
 }
