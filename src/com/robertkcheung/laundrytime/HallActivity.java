@@ -16,6 +16,9 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,6 +26,31 @@ import android.widget.TextView;
 public class HallActivity extends Activity {
 	public static int hallNum;
 	public Hall param1;
+	
+	@Override 
+	public boolean onCreateOptionsMenu(Menu menu) { 
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu, menu);
+	    return true;
+	}
+	
+	@Override 
+	public boolean onOptionsItemSelected(MenuItem item) { 
+		if(item.getItemId() == R.id.reloadButton)
+		{
+			try {
+				new LoadHallInfo().execute();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+
+		return true; 
+	}
+	
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -43,7 +71,7 @@ public class HallActivity extends Activity {
 	      // can use UI thread here
 	      @SuppressWarnings("unchecked")
 		protected void onPreExecute() {
-	         this.pd.setMessage("Loading List...\n(Tap to Cancel)");
+	         this.pd.setMessage(" Loading Hall Info...");
 	         this.pd.show();
 	      }
 	      
@@ -90,8 +118,8 @@ public class HallActivity extends Activity {
 	      
 	      
 	      int wavailable = Integer.parseInt(param1.washers_available);
-	      //int winuse = Integer.parseInt(param1.washers_in_use);
-	      int winuse = (int) (wavailable * 0.7);
+	      int winuse = Integer.parseInt(param1.washers_in_use);
+	      //int winuse = (int) (wavailable * 0.7);
 	      int davailable = Integer.parseInt(param1.dryers_available);
 	      int dinuse = Integer.parseInt(param1.dryers_in_use);
 	      

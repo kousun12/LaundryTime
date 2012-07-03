@@ -15,6 +15,8 @@ import org.json.JSONObject;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -22,27 +24,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class SetPrefsActivity extends ListActivity{
-/*	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		
 
-	}
-
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-	
-
-	}*/
-	
-	
-	
-	
+	private int last=-1;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -52,29 +38,58 @@ public class SetPrefsActivity extends ListActivity{
 		ArrayAdapter<Hall> ar = new ArrayAdapter<Hall>(this, android.R.layout.simple_list_item_single_choice, listItems);
 		setListAdapter(ar);
 		ListView lv = getListView();
+		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		lv.setTextFilterEnabled(true);
+		
+//		EditText filterEditText = (EditText) findViewById(R.id.editText1);
+//		filterEditText.addTextChangedListener(new TextWatcher() {
+//			@Override
+//		    public void onTextChanged(CharSequence s, int start, int before,
+//		      int count) {
+//		      ar.getFilter().filter(s.toString());
+//		    }
+//		 
+//		     @Override
+//		     public void beforeTextChanged(CharSequence s, int start, int count,
+//		      int after) {
+//		     }
+//		 
+//		     @Override
+//		     public void afterTextChanged(Editable s) {
+//		     }
+//		});
+//		
+		
+		
 		
 		lv.setOnItemClickListener(new OnItemClickListener()
         {
-		boolean somethingChecked = false;
-		int lastChecked;
-		   public void onItemClick(AdapterView arg0, View arg1, int arg2,
+			@Override
+		   public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 		     long arg3) {
+				last = arg2;
+//				Toast.makeText(getApplicationContext(),
+//						"Click ListItem Number " + arg2, Toast.LENGTH_LONG)
+//						.show();
 		    // TODO Auto-generated method stub
-			   if(somethingChecked){
-				   ListView lv = (ListView) arg0;
-				   TextView tv = (TextView) lv.getChildAt(lastChecked);
-				   CheckedTextView cv = (CheckedTextView) tv;
-				   cv.setChecked(false);
-			   }
-			   ListView lv = (ListView) arg0;
-			   TextView tv = (TextView) lv.getChildAt(arg2);
-			   CheckedTextView cv = (CheckedTextView) tv;
-			   if(!cv.isChecked())
-			   cv.setChecked(true);
-			   lastChecked = arg2;
-			   somethingChecked=true;
+//			   CheckedTextView cv = (CheckedTextView) arg1;
+//			   
+//			   if(!sc){
+//				   cv.setChecked(true);
+//				   //if(!cv.isChecked())
+//				   //cv.setChecked(true);
+//				   last = arg2;
+//				   sc=true;
+//			   }
+//			   else{
+//				   CheckedTextView l = (CheckedTextView) arg0.getChildAt(last);
+//				   l.setChecked(false);
+//				   cv.setChecked(true);
+//				   sc = true;
+//			   }
+			   
 		   }
+		   
         });
 		new LoadListTask().execute();
 		
@@ -83,16 +98,14 @@ public class SetPrefsActivity extends ListActivity{
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				int selectedIndex = -1;
+				// TODO Auto-generated method stub				
 				
-				for(int i=0; i<((ArrayAdapter<Hall>)getListAdapter()).getCount(); i++){
-					((ArrayAdapter<Hall>)getListAdapter()).getItem(i);
-				
-				}
-				if(selectedIndex!=-1){
+				if(last!=-1){
 				Intent i = new Intent(SetPrefsActivity.this, HallActivity.class);
-				
+			    SharedPreferences sp = getSharedPreferences("hallPref", MODE_WORLD_READABLE);
+			    Editor spEdit = sp.edit();
+			    spEdit.putInt("myHall", last);
+			    spEdit.commit();
 				startActivity(i);
 				}
 				
@@ -100,6 +113,13 @@ public class SetPrefsActivity extends ListActivity{
 		});
 	}
 	
+//	@Override
+//	protected void onListItemClick(ListView l, View v, int pos, long id){
+//		super.onListItemClick(l, v, pos, id);
+//		
+//		last = pos;
+//	}
+//	
 	
 	
 	
