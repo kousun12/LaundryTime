@@ -10,7 +10,7 @@ public class IntroActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setTheme(android.R.style.Theme_Holo);
+//		setTheme(android.R.style.Theme_Holo);
 		setContentView(R.layout.first);
 		
 		Button b = (Button) findViewById(R.id.setPrefbtn);

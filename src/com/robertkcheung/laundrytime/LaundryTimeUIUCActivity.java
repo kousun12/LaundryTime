@@ -11,7 +11,7 @@ public class LaundryTimeUIUCActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	  super.onCreate(savedInstanceState);
-	  //this.requestWindowFeature(Window.FEATURE_NO_TITLE); t
+//	  this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
 	  SharedPreferences sp =  getSharedPreferences("hallPref", MODE_WORLD_READABLE);
 	  int myHall = sp.getInt("myHall", -1);
 			  
@@ -27,6 +27,7 @@ public class LaundryTimeUIUCActivity extends Activity {
 		  //b.putSerializable("param1", sp.getInt("myHall", -1)); 
 		  //i.putExtra("HALL_NUM", sp.getInt("myHall", 1));
 		  startActivity(i);
+		  finish();
 	  }
 
 	  

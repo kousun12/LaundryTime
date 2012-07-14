@@ -3,16 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-     <ScrollView 
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:orientation="vertical"
+        android:layout_weight="1"
         >
        
 	    <TextView android:layout_width="wrap_content"
@@ -26,6 +24,7 @@
 	        android:layout_gravity="center_horizontal"
 	        android:text="@string/firsttime"
 	        android:gravity="center_horizontal"
+	        android:textSize="18sp"
 	        android:width="0dp"
 	        android:singleLine="false"
 	        android:scrollHorizontally="false"/>
@@ -34,28 +33,30 @@
 	        android:layout_height="wrap_content"
 	        android:weightSum="2"
 	        android:layout_marginTop="20dp"
-	        android:orientation="horizontal">
+	        android:orientation="horizontal"
+	        >
 	        <ImageView 
 	        android:layout_weight="1"
 	        android:layout_width="0dp"
-	        android:layout_height="199dp"
+	        android:layout_height="wrap_content"
 	        android:src="@drawable/washer2"
 	        android:contentDescription="@string/washers"
 	        android:layout_gravity="center_horizontal"
+	        android:scaleType="fitStart"
 	        />
 	        <ImageView 
 	        android:layout_weight="1"
 	        android:layout_width="0dp"
-	        android:layout_height="199dp"
+	        android:layout_height="wrap_content"
 	        android:src="@drawable/dryer2"
 	        android:contentDescription="@string/dryers"
 	        android:layout_gravity="center_horizontal"
+	        android:scaleType="fitStart"
 	        />
 	    </LinearLayout>
 	    
   
 	</LinearLayout>
-	</ScrollView>
     <Button
         android:id="@+id/setPrefbtn"
         android:textSize="20sp" 
@@ -67,6 +68,5 @@
         android:paddingRight="30dp"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
-        
         />
 </LinearLayout>

@@ -32,7 +32,7 @@ public class SetPrefsActivity extends ListActivity{
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setTheme(android.R.style.Theme_Holo);
+//		setTheme(android.R.style.Theme_Holo);
 		setContentView(R.layout.radiolist);
 		ArrayList<Hall> listItems = new ArrayList<Hall>();
 		ArrayAdapter<Hall> ar = new ArrayAdapter<Hall>(this, android.R.layout.simple_list_item_single_choice, listItems);
@@ -41,6 +41,13 @@ public class SetPrefsActivity extends ListActivity{
 		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		lv.setTextFilterEnabled(true);
 		
+		SharedPreferences sp = getSharedPreferences("hallPref", MODE_WORLD_READABLE);
+	    int hallNum = sp.getInt("myHall", -1);
+	    if(hallNum!=-1){
+	    	lv.setItemChecked(hallNum, true);
+	    	last = hallNum;
+	    }
+	    
 //		EditText filterEditText = (EditText) findViewById(R.id.editText1);
 //		filterEditText.addTextChangedListener(new TextWatcher() {
 //			@Override

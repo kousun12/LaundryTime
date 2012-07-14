@@ -7,8 +7,8 @@
     <string name="expected_wait">EXPECTED WAIT TIME:</string>
     <string name="app_name">Laundry Time UIUC</string>
     <string name="welcome">Welcome!</string>
-    <string name="setprefs">Set Preference ></string>
-    <string name="firsttime">"Hey! Since this is the first time you're using Laundry Time UIUC, please set your preferred location. That way, we can get information to you faster! (And you can always change your preference by pressing the option button!)"</string>
+    <string name="setprefs">Set Preference</string>
+    <string name="firsttime">"Set your preferred hall (Change your option later by pressing the option button!)"</string>
     <color name="perfect_gray">#313131</color>
 
 </resources>

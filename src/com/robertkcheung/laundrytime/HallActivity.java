@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,6 +41,15 @@ public class HallActivity extends Activity {
 		{
 			try {
 				new LoadHallInfo().execute();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		else if(item.getItemId() == R.id.changePrefButton)
+		{
+			try {
+				startActivity(new Intent(HallActivity.this,SetPrefsActivity.class));
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
