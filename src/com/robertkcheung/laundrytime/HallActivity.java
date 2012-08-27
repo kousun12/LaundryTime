@@ -24,10 +24,21 @@ import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+
+
+
+//TODO: 
+	//add choose school
+	//remove ETA
+	//
 public class HallActivity extends Activity {
 	public static int hallNum;
 	public Hall param1;
 	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu){
+		return super.onPrepareOptionsMenu(menu);
+	}
 	@Override 
 	public boolean onCreateOptionsMenu(Menu menu) { 
 		MenuInflater inflater = getMenuInflater();
@@ -126,9 +137,11 @@ public class HallActivity extends Activity {
 	      
 	      int wavailable = Integer.parseInt(param1.washers_available);
 	      int winuse = Integer.parseInt(param1.washers_in_use);
+	      int totalw = wavailable + winuse;
 	      //int winuse = (int) (wavailable * 0.7);
 	      int davailable = Integer.parseInt(param1.dryers_available);
 	      int dinuse = Integer.parseInt(param1.dryers_in_use);
+	      int totald = davailable + dinuse;
 	      
 	      ProgressBar wprog = (ProgressBar) findViewById(R.id.washerProgress);
 	      ProgressBar dprog = (ProgressBar) findViewById(R.id.dryerProgress);
@@ -138,18 +151,18 @@ public class HallActivity extends Activity {
 //	      Drawable d2 = new BitmapDrawable(Bitmap.createScaledBitmap(b, 93/wavailable, 20, true));
 	      
 	      
-	      wprog.setMax(wavailable);
+	      wprog.setMax(totalw);
 	      //wprog.setSecondaryProgress(wavailable-winuse);
-	      wprog.setProgress(wavailable-winuse);
-	      dprog.setMax(davailable);
-	      dprog.setProgress(davailable-dinuse);
+	      wprog.setProgress(totalw-winuse);
+	      dprog.setMax(totald);
+	      dprog.setProgress(totald-dinuse);
 	      
 	      TextView hallname = (TextView) findViewById(R.id.textViewHall);
 	      //shrinkTextToFit(hallname.getWidth(),hallname,hallname.getTextSize(),20f);
 	      TextView nwashers = (TextView) findViewById(R.id.numWashers);
 	      TextView ndryers = (TextView) findViewById(R.id.numDryers);
-	      TextView time = (TextView) findViewById(R.id.timeRemaining);
-	      TextView time2 = (TextView) findViewById(R.id.timeRemaining2);
+	      //TextView time = (TextView) findViewById(R.id.timeRemaining);
+	      //TextView time2 = (TextView) findViewById(R.id.timeRemaining2);
 	      //Drawable d = (Drawable) getResources().getDrawable(R.drawable.dryer);
 	      //Bitmap b = ((BitmapDrawable) d).getBitmap();
 	      
@@ -160,8 +173,20 @@ public class HallActivity extends Activity {
 	     
 	      
 	      hallname.setText(param1.title);
-	      ndryers.setText((davailable-dinuse) + " OF " + davailable);
-	      nwashers.setText((wavailable-winuse) + " OF " + wavailable);
-	      time.setText("0:0:00"); time2.setText("0:0:00");
+	      ndryers.setText((totald-dinuse) + " OF " + totald);
+	      nwashers.setText((totalw-winuse) + " OF " + totalw);
+	      
+	      if(davailable <= (int)(totald*0.2) || davailable==1){
+	    	  ndryers.setTextColor(getResources().getColor(R.color.low_machines));
+	      }if(wavailable <= (int)(totalw*0.2) || wavailable==1){
+	    	  ndryers.setTextColor(getResources().getColor(R.color.low_machines));
+	      }
+	      if(dinuse == totald){
+	    	  ndryers.setTextColor(getResources().getColor(R.color.no_more_machines));
+	      }
+	      if(winuse == totalw){
+	    	  nwashers.setTextColor(getResources().getColor(R.color.no_more_machines));
+	      }
+	      //time.setText("0:0:00"); time2.setText("0:0:00");
 	}
 }

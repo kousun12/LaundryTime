@@ -10,5 +10,8 @@
     <string name="setprefs">Set Preference</string>
     <string name="firsttime">"Set your preferred hall (Change your option later by pressing the option button!)"</string>
     <color name="perfect_gray">#313131</color>
+    <color name="no_more_machines">#CA5558</color>
+    <color name="low_machines">#FFFF00</color>
+    
 
 </resources>
