@@ -2,6 +2,5 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"> 
 	<item android:id ="@+id/reloadButton" android:title ="Reload" android:icon="@drawable/ic_menu_refresh" /> 
-	<item android:id="@+id/changePrefButton" android:title="Change Hall" android:icon="@drawable/ic_menu_preferences" />
-	<item android:id="@+id/setAlarmButton" android:title="Alert Me" android:icon="@drawable/ic_audio_alarm" />
+	<item android:id="@+id/changePrefButton" android:title="Change Preferences" android:icon="@drawable/ic_menu_preferences" />
 	</menu>

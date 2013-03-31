@@ -5,13 +5,20 @@
     <string name="available">AVAILABLE:</string>
     <string name="dryers">DRYERS</string>
     <string name="expected_wait">EXPECTED WAIT TIME:</string>
-    <string name="app_name">Laundry Time UIUC</string>
+    <string name="app_name">Suds</string>
     <string name="welcome">Welcome!</string>
     <string name="setprefs">Set Preference</string>
     <string name="firsttime">"Set your preferred hall (Change your option later by pressing the option button!)"</string>
-    <color name="perfect_gray">#313131</color>
+    <color name="sudsgray">#f2f2f2</color>
+    <color name="graypressed">#e2e2e2</color>
+    <color name="sudsdarkgray">#404040</color>
+    <color name="salmon">#ff7c80</color>
+    <color name="sudsblue">#00ccff</color>
+    <color name="sudsgreen">#00b050</color>
+        
     <color name="no_more_machines">#CA5558</color>
     <color name="low_machines">#FFFF00</color>
+    
     
 
 </resources>

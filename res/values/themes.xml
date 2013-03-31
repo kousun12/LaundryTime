@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="maintheme" parent="@android:style/Theme.Black">
+    <style name="maintheme" parent="@android:style/Theme.Light.NoTitleBar">
         
     </style>
 </resources>

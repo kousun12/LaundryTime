@@ -4,31 +4,49 @@
     android:versionCode="1"
     android:versionName="1.0" >
     
-	<uses-permission
-        android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.VIBRATE" />
 	
     <uses-sdk android:minSdkVersion="8" 
         />
 
     <application
-        android:icon="@drawable/icon"
+        android:icon="@drawable/machine"
         android:label="@string/app_name"
         android:theme="@style/maintheme" >
+        
         <activity
             android:name=".LaundryTimeUIUCActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:label="@string/app_name" android:name=".HallActivity">
+        <activity android:label="@string/app_name" android:name=".HallActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:label="@string/app_name" android:name=".IntroActivity">
+        <activity android:label="@string/app_name" android:name=".IntroActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:label="@string/app_name" android:name=".SetPrefsActivity">
+        <activity android:label="@string/app_name" android:name=".SetPrefsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait">
         </activity>
+        <activity android:label="@string/app_name" android:name=".SchoolActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait">
+        </activity>
+        
+        <service android:name="com.parse.PushService" />
+        <receiver android:name="AlarmReciever"></receiver>
+		
+        
     </application>
 
 </manifest>

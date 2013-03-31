@@ -29,7 +29,8 @@ import android.widget.ListView;
 public class SetPrefsActivity extends ListActivity{
 
 	private int last=-1;
-	@Override
+	String schoolCode = "";
+@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 //		setTheme(android.R.style.Theme_Holo);
@@ -41,8 +42,9 @@ public class SetPrefsActivity extends ListActivity{
 		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		lv.setTextFilterEnabled(true);
 		
-		SharedPreferences sp = getSharedPreferences("hallPref", MODE_WORLD_READABLE);
+		SharedPreferences sp = getSharedPreferences("schoolPref", MODE_WORLD_READABLE);
 	    int hallNum = sp.getInt("myHall", -1);
+	    schoolCode = sp.getString("code", "");
 	    if(hallNum!=-1){
 	    	lv.setItemChecked(hallNum, true);
 	    	last = hallNum;
@@ -50,7 +52,7 @@ public class SetPrefsActivity extends ListActivity{
 	    
 //		EditText filterEditText = (EditText) findViewById(R.id.editText1);
 //		filterEditText.addTextChangedListener(new TextWatcher() {
-//			@Override
+//		@Override
 //		    public void onTextChanged(CharSequence s, int start, int before,
 //		      int count) {
 //		      ar.getFilter().filter(s.toString());
@@ -71,7 +73,7 @@ public class SetPrefsActivity extends ListActivity{
 		
 		lv.setOnItemClickListener(new OnItemClickListener()
         {
-			@Override
+		@Override
 		   public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 		     long arg3) {
 				last = arg2;
@@ -103,13 +105,13 @@ public class SetPrefsActivity extends ListActivity{
 		Button b = (Button) findViewById(R.id.savePrefBtn);
 		b.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
+		@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub				
 				
 				if(last!=-1){
 				Intent i = new Intent(SetPrefsActivity.this, HallActivity.class);
-			    SharedPreferences sp = getSharedPreferences("hallPref", MODE_WORLD_READABLE);
+			    SharedPreferences sp = getSharedPreferences("schoolPref", MODE_WORLD_READABLE);
 			    Editor spEdit = sp.edit();
 			    spEdit.putInt("myHall", last);
 			    spEdit.commit();
@@ -120,7 +122,7 @@ public class SetPrefsActivity extends ListActivity{
 		});
 	}
 	
-//	@Override
+//@Override
 //	protected void onListItemClick(ListView l, View v, int pos, long id){
 //		super.onListItemClick(l, v, pos, id);
 //		
@@ -149,7 +151,7 @@ public class SetPrefsActivity extends ListActivity{
 			 // TODO    4 new activity with custom adapter to show schedules
 	    	 try {
 	    		HttpClient client = new DefaultHttpClient();
-				HttpGet get = new HttpGet("http://robertkcheung.com/laundrytime/laundry.php?request=GetHallNames");
+				HttpGet get = new HttpGet("http://robertkcheung.com/laundrytime/laundry.php?request=GetHallNames&code=" + schoolCode);
 				
 				ResponseHandler<String> responseHandler = new BasicResponseHandler();
 
