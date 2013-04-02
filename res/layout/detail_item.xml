@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pull="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        >
+        <com.robertkcheung.laundrytime.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MACHINE"
+            android:textSize="10sp"
+            />
+        <com.robertkcheung.laundrytime.CustomTextView 
+            android:id="@+id/detailMachineNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#"
+            android:textSize="36sp"
+            
+            />
+    </LinearLayout>
+    <View 
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#ccc"/>
+    <LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:padding="12dp"        
+        android:layout_gravity="center"
+        android:gravity="center">
+        
+    	<com.robertkcheung.laundrytime.CustomTextView 
+    	    android:id="@+id/detail_fetch"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="COULD NOT FETCH MACHINE INFO"
+	        android:textSize="20sp"
+	        android:gravity="center"
+	        android:textColor="#B5B5B5"
+	        pull:typeface="aroni"/>
+    	<com.robertkcheung.laundrytime.CustomTextView 
+    	    android:id="@+id/detailNotResponding"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="MACHINE NOT RESPONDING"
+	        android:textSize="20sp"
+	        android:gravity="center"
+	        android:textColor="#B5B5B5"
+	        pull:typeface="aroni"/>
+		 <com.robertkcheung.laundrytime.CustomTextView 
+		     android:id="@+id/detail_just_finished"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="JUST FINISHED"
+	        android:textSize="20sp"
+	        android:textColor="#F7B54D"
+	        pull:typeface="aroni"
+        	/>
+		 <com.robertkcheung.laundrytime.CustomTextView 
+		     android:id="@+id/detailinUse"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="IN USE"
+	        android:textSize="20sp"
+	        android:textColor="@color/no_more_machines"
+	        pull:typeface="aroni"
+        	/>
+		 <ProgressBar
+	        android:id="@+id/detailProgress"
+	        style="?android:attr/progressBarStyleHorizontal"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" />
+		 
+		 <com.robertkcheung.laundrytime.CustomTextView 
+		     android:id="@+id/detailAvailable"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="AVAILABLE"
+	        android:textSize="20sp"
+	        android:textColor="@color/sudsgreen"
+	        pull:typeface="aroni"/>
+        
+        
+        <com.robertkcheung.laundrytime.CustomTextView
+            android:id="@+id/detailTimeRemaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20 Mins remaining"
+            />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/detailStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="18dp"
+        android:paddingRight="30dp"
+        android:layout_gravity="center_vertical"
+        />
+        
+</LinearLayout>

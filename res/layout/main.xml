@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pull="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#f2f2f2"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    >
 
-    <TextView
+    <com.robertkcheung.laundrytime.CustomTextView
         android:id="@+id/textViewHall"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -15,29 +17,42 @@
         android:paddingBottom="16dp"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"
-        android:paddingTop="16dp"
+        android:paddingTop="18dp"
         android:singleLine="true"
         android:textColor="#ffffff"
-        android:textSize="30sp" />
+        android:textSize="30sp" 
+        pull:typeface="aroni"/>
     
-    <ScrollView
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
         android:id="@+id/scrollV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+    	android:fillViewport="true"
+    	pull:ptrHeaderBackground="#ffffff"
+    	>
         
-<LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="18dp"
-    android:layout_marginRight="18dp"
-    android:layout_marginTop="18dp"
-    android:orientation="vertical" >
-    
-	<LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal"
-	    android:baselineAligned="false">
+		<LinearLayout
+		    android:id="@+id/rootView"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:orientation="vertical"
+		    android:paddingLeft="24dp"
+    		android:paddingRight="24dp"
+	    
+	    >
+	    <View 
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+		/>
+
+		<LinearLayout
+		    android:id="@+id/washerLayout"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:onClick="onWasherClick"
+	    >
 	    <LinearLayout 
 	        android:orientation="vertical"
 	        android:layout_width="100dp"
@@ -57,37 +72,40 @@
 	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center">
+		    
 
 	        <LinearLayout 
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
 	            android:orientation="horizontal"
 	            android:gravity="center_horizontal">
-	            <TextView
+	            <com.robertkcheung.laundrytime.CustomTextView
 	                android:id="@+id/nWash"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:textSize="50sp"
 	                android:textColor="#00ccff"
+	                pull:typeface="aroni"
 	                />
-	            <TextView
+	            <com.robertkcheung.laundrytime.CustomTextView
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:textSize="20sp"
 	                android:textColor="#404040"
 	                android:text="  OF  " />
 
-	            <TextView
+	            <com.robertkcheung.laundrytime.CustomTextView
 	                android:id="@+id/dWash"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	              	android:textSize="50sp"
 	                android:textColor="#00ccff"
+	                pull:typeface="aroni"
 	                />
 
 	        </LinearLayout>
 
-	        <TextView
+	        <com.robertkcheung.laundrytime.CustomTextView
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
 	            android:gravity="center_horizontal"
@@ -95,32 +113,17 @@
 	            android:textColor="#404040"
 	            android:textSize="28sp" />
 
-	        <!-- 
-	        <TextView 
-	            android:layout_width="fill_parent"
-	            android:text="@string/expected_wait"
-	            android:layout_height="wrap_content"/>
-	        <TextView 
-	            android:id="@+id/timeRemaining"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:textSize="28sp"
-	            /> 
-	            <ProgressBar
-		        android:id="@+id/washerProgress"
-		        android:progressDrawable="@drawable/blueprogress"
-		        style="@android:style/Widget.ProgressBar.Horizontal"
-		        android:layout_width="fill_parent"
-		        android:paddingTop="30dp"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center_horizontal"
-		        /> -->
 
 	    </LinearLayout>
+	    <ImageView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:src="@drawable/arrow"/>
 	    
 	</LinearLayout>
 
-	<TextView
+	<com.robertkcheung.laundrytime.CustomTextView
 	    android:id="@+id/btnWasher"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
@@ -132,13 +135,17 @@
 	    android:text="AVAILABLE"
 	    android:textColor="#f2f2f2"
 	    android:textSize="18sp" />
+	<View 
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 	
 	<LinearLayout
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal"
 	    android:baselineAligned="false"
-	    android:layout_marginTop="30dp">
+	    android:onClick="onDryerClick">
 
 		<LinearLayout
 		    android:layout_width="100dp"
@@ -166,29 +173,31 @@
 		        android:gravity="center_horizontal"
 		        android:orientation="horizontal" >
 
-		        <TextView
+		        <com.robertkcheung.laundrytime.CustomTextView
 		            android:id="@+id/nDryer"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:textColor="#ff7c80"
-		            android:textSize="50sp" />
+		            android:textSize="50sp" 
+		            pull:typeface="aroni"/>
 
-		        <TextView
+		        <com.robertkcheung.laundrytime.CustomTextView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:text="  OF  "
 		            android:textColor="#404040"
 		            android:textSize="20sp" />
 
-		        <TextView
+		        <com.robertkcheung.laundrytime.CustomTextView
 		            android:id="@+id/dDryer"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:textColor="#ff7c80"
-		            android:textSize="50sp" />
+		            android:textSize="50sp" 
+		            pull:typeface="aroni"/>
 		    </LinearLayout>
 
-		    <TextView
+		    <com.robertkcheung.laundrytime.CustomTextView
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:gravity="center_horizontal"
@@ -196,14 +205,18 @@
 		        android:textColor="#404040"
 		        android:textSize="28sp" />
 		</LinearLayout>
+		<ImageView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:src="@drawable/arrow"/>
 	    
 	</LinearLayout>
 
-	<TextView
+	<com.robertkcheung.laundrytime.CustomTextView
 	    android:id="@+id/btnDryer"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginBottom="60dp"
 	    android:layout_marginTop="16dp"
 	    android:background="#00b050"
 	    android:gravity="center_horizontal"
@@ -212,7 +225,12 @@
 	    android:text="AVAILABLE"
 	    android:textColor="#f2f2f2"
 	    android:textSize="18sp" />
+	<View 
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+	
 	
 </LinearLayout>
-</ScrollView>
+</com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 </LinearLayout>

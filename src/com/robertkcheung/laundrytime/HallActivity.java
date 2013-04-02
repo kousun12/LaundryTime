@@ -18,25 +18,25 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParsePush;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
-//TODO: 
-//add choose school
-//remove ETA
-//
+
 public class HallActivity extends Activity {
 	public static int hallNum;
 	public Hall param1;
@@ -45,8 +45,9 @@ public class HallActivity extends Activity {
 	int totalw;
 	int totald;
 	String code;
-	Typeface aroni;
-	Typeface sego;
+	PullToRefreshScrollView mPullRefreshScrollView;
+	ScrollView mScrollView;
+	SharedPreferences sp;
 
 @Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -64,7 +65,8 @@ public class HallActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.reloadButton) {
 			try {
-				new LoadHallInfo().execute();
+				//new LoadHallInfo().execute();
+				mPullRefreshScrollView.setRefreshing(true);
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -87,20 +89,30 @@ public class HallActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
-		SharedPreferences sp = getSharedPreferences("schoolPref",
+		 sp = getSharedPreferences("schoolPref",
 				MODE_WORLD_READABLE);
-		aroni = Typeface.createFromAsset(this.getAssets(), "aroni.ttf");
-		sego = Typeface.createFromAsset(this.getAssets(), "sego.ttf");
 
-		// Parse.initialize(this, "hne38uR4KKnD8kMHsl69nO0lKPAW1sMNB8FZsjML",
-		// "ymJ1dkY82xrAyscTeSBqwFUwIXMrTh8X0pMFZj5H");
-		// PushService.subscribe(this, "myTestDev", HallActivity.class);
-		ViewGroup root = (ViewGroup) findViewById(R.id.scrollV);
-		setFont(root, sego);
-		ParsePush push = new ParsePush();
-		push.setChannel("myTestDev");
-		// push.setMessage("TestPush");
-		// push.sendInBackground();
+
+		LinearLayout washerLayout = (LinearLayout) findViewById(R.id.washerLayout);
+		
+
+		mPullRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.scrollV);
+		mPullRefreshScrollView.setOnRefreshListener(new OnRefreshListener<ScrollView>() {
+
+			@Override
+			public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+				String label = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
+				DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+
+				// Update the LastUpdatedLabel
+				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+				new GetDataTask().execute();
+			}
+		});
+
+		mScrollView = mPullRefreshScrollView.getRefreshableView();
+		
+		
 
 		hallNum = sp.getInt("myHall", -1);
 		code = sp.getString("code", "");
@@ -108,6 +120,58 @@ public class HallActivity extends Activity {
 		// Bundle bundle = this.getIntent().getExtras();
 		// Hall param1 = (Hall) bundle.getSerializable("param1");
 
+	}
+
+	@Override
+	public void onRestart(){
+		super.onResume();
+		mPullRefreshScrollView.setRefreshing(true);
+	}
+
+	private class GetDataTask extends AsyncTask<Void, Void, Void> {
+	
+		protected Void doInBackground(Void... ars) {
+			try {
+				HttpClient client = new DefaultHttpClient();
+				HttpGet get = new HttpGet(
+						"http://robertkcheung.com/laundrytime/laundry.php?request=GetHallList&code="
+								+ code);
+
+				ResponseHandler<String> responseHandler = new BasicResponseHandler();
+				JSONObject jsonob = new JSONObject(client.execute(get,
+						responseHandler));
+				// JSONArray ja = new JSONArray(client.execute(get,
+				// responseHandler));
+				JSONArray ja = jsonob.getJSONArray("halls");
+
+				JSONObject jo = (JSONObject) ja.get(hallNum);
+				param1 = new Hall(jo.getString("hall_number"),
+						jo.getString("title"),
+						jo.getString("washers_available"),
+						jo.getString("dryers_available"),
+						jo.getString("washers_in_use"),
+						jo.getString("dryers_in_use"));
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+
+
+		protected void onPostExecute(Void result) {
+			finisheverything();
+			mPullRefreshScrollView.onRefreshComplete();
+			super.onPostExecute(result);
+		}
 	}
 
 	private class LoadHallInfo extends AsyncTask<Void, Hall, Void> {
@@ -163,12 +227,16 @@ public class HallActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			pd.dismiss();
 			finisheverything();
+			String label = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
+					DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+			mPullRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+
 		}
 	}
 
-	private class getWashTimes extends AsyncTask<Void, Void, Void> {
+	private class getWashTimes extends AsyncTask<Void, Void, Integer> {
 
-		protected Void doInBackground(Void... params) {
+		protected Integer doInBackground(Void... params) {
 			try {
 				HttpClient client = new DefaultHttpClient();
 				HttpGet get = new HttpGet(
@@ -184,10 +252,17 @@ public class HallActivity extends Activity {
 				for (int i = 0; i < ta; i++) {
 					JSONObject jo = (JSONObject) ja.get(i);
 					int time;
-					if (jo.getString("status").startsWith("In Use")) {
-						time = Integer.parseInt(jo.getString("time_remaining")
-								.replace(" min", ""));
-						wminsLeft = time < wminsLeft ? time : wminsLeft;
+					try{
+						if (jo.getString("status").startsWith("In Use")) {
+							time = Integer.parseInt(jo.getString("time_remaining")
+									.replace(" min", ""));
+							wminsLeft = time < wminsLeft ? time : wminsLeft;
+						}
+					}catch(Exception e){
+						Toast t = Toast.makeText(getApplicationContext(),
+								"Error getting remaining time", Toast.LENGTH_LONG);
+						t.show();
+						return -1;
 					}
 				}
 
@@ -204,13 +279,13 @@ public class HallActivity extends Activity {
 			return null;
 		}
 
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Integer result) {
 
 			// ParsePush pp = new ParsePush();
 			// pp.setChannel("myTestDev");
 			// pp.setMessage(dminsLeft + "until a machine opens");
 			// pp.sendInBackground();
-			if (wminsLeft == 120) {
+			if (wminsLeft == 120 || result == -1) {
 				Toast errortoast = Toast
 						.makeText(HallActivity.this.getApplicationContext(),
 								"ETA currently not available for this hall",
@@ -247,9 +322,9 @@ public class HallActivity extends Activity {
 
 	}
 
-	private class getDryTimes extends AsyncTask<Void, Void, Void> {
+	private class getDryTimes extends AsyncTask<Void, Void, Integer> {
 
-		protected Void doInBackground(Void... params) {
+		protected Integer doInBackground(Void... params) {
 			try {
 				HttpClient client = new DefaultHttpClient();
 				HttpGet get = new HttpGet(
@@ -265,36 +340,35 @@ public class HallActivity extends Activity {
 				for (int i = totalw; i < ta; i++) {
 					JSONObject jo = (JSONObject) ja.get(i);
 					int time;
+					
 					if (jo.getString("status").startsWith("In Use")) {
 						time = Integer.parseInt(jo.getString("time_remaining")
 								.replace(" min", ""));
 						dminsLeft = time < dminsLeft ? time : dminsLeft;
 					}
+					
 				}
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
+				Toast t = Toast.makeText(getApplicationContext(),
+						"Error getting remaining time", Toast.LENGTH_LONG);
+				t.show();
+				return -1;
 			}
 			return null;
 		}
 
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Integer result) {
 
 			// ParsePush pp = new ParsePush();
 			// pp.setChannel("myTestDev");
 			// pp.setMessage(dminsLeft + "until a machine opens");
 			// pp.sendInBackground();
-			if (dminsLeft == 120) {
+			if (dminsLeft == 120 || result==-1) {
 				Toast errortoast = Toast
 						.makeText(HallActivity.this.getApplicationContext(),
-								"ETA currently not available for this hall",
+								"ETA currently not available",
 								Toast.LENGTH_LONG);
 				errortoast.show();
 			} else {
@@ -347,10 +421,11 @@ public class HallActivity extends Activity {
 			TextView ddryers = (TextView) findViewById(R.id.dDryer);
 
 			// TextView time = (TextView) findViewById(R.id.timeRemaining);
-			// TextView time2 = (TextView) findViewById(R.id.timeRemaining2);
-
+			// TextView time2 = (TextView) findViewById(R.id.timeRemaining2);			
 			hallname.setText(param1.title.toUpperCase());
-			hallname.setTypeface(aroni);
+			Editor e = sp.edit();
+			e.putString("hallName", param1.title);
+			e.commit();
 
 			if (davailable == 0) {
 				TextView btn = (TextView) findViewById(R.id.btnDryer);
@@ -385,24 +460,26 @@ public class HallActivity extends Activity {
 			nwashers.setText(Integer.toString(wavailable));
 			ddryers.setText(Integer.toString(totald));
 			dwashers.setText(Integer.toString(totalw));
-			ndryers.setTypeface(aroni);
-			nwashers.setTypeface(aroni);
-			ddryers.setTypeface(aroni);
-			dwashers.setTypeface(aroni);
+
 		} catch (NullPointerException npe) {
 
 		}
 	}
-
-	public void setFont(ViewGroup group, Typeface font) {
-		int count = group.getChildCount();
-		View v;
-		for (int i = 0; i < count; i++) {
-			v = group.getChildAt(i);
-			if (v instanceof TextView || v instanceof Button /* etc. */)
-				((TextView) v).setTypeface(font);
-			else if (v instanceof ViewGroup)
-				setFont((ViewGroup) v, font);
-		}
+	
+	public void onWasherClick(View v){
+		Intent i = new Intent(HallActivity.this, DetailActivity.class);
+		i.putExtra("isWasher", true);
+		startActivityForResult(i, 500);
+		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 	}
+	public void onDryerClick(View v){
+		Intent i = new Intent(HallActivity.this, DetailActivity.class);
+		i.putExtra("isWasher", false);
+		startActivityForResult(i, 500);
+		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+	}
+	
+	
+
+	
 }

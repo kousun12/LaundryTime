@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="typeface" format="enum">
+        <enum name="sego" value="0"/>
+        <enum name="aroni" value="1"/>
+        
+    </attr>
+
+    <declare-styleable name="customfont">
+        <attr name="typeface"/>
+    </declare-styleable>
+</resources>

@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pull="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 <!--add empty view*/  -->
-
+		<com.robertkcheung.laundrytime.CustomTextView
+        android:id="@+id/listHeading"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#404040"
+        android:ellipsize="end"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingBottom="16dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="18dp"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="30sp" 
+        android:text="HallName"
+        pull:typeface="aroni"/>
 		<ListView
 		android:id="@android:id/list"
 		android:layout_weight="1"
@@ -16,7 +32,7 @@
 		android:id="@+id/savePrefBtn"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/setprefs"
+		android:text="SET"
 		android:padding="24dp"
 		android:background="@drawable/list_highlight"
 		android:textColor="#f2f2f2"

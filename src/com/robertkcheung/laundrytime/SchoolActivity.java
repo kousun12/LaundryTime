@@ -7,6 +7,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,10 +15,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class SchoolActivity extends ListActivity{
-	String [] schools = {"University of Illinois Urbana-Champaign", "University of Northern Colorado", "University of Pennsylvania", "Stanford University", "University of Virginia", "Iowa State University", "Trinity University", "Louisiana State University", "University of Southern Indiana", "Humboldt State University", "Univeristy of Nebraska-Kearney", "University of California-Los Angeles", "Towson Univeristy", "University of Toronto Mississauga", "California Polytechnic State Univeristy", "California State University - Monterery Bay", "Buena Vista University", "University of Wisconsin-Milwaukee", "Lehigh University", "Augsburg College", "University of Oklahoma", "Saint Louis University", "Duke University", "Rensselaer Polytechnic Institute", "Rollins College", "University of Dayton", "Univeristy of Louisville", "Washburn University", "Pacific University", "Fort Hays State University", "Xavier University", "Vista Del Campo Norte", "Missouri State University", "Rice University", "Augsburg College", "Yeshiva University", "Central Michigan University"};
-	String [] codes = {"urba7723", "unco931", "penn6389", "STAN9568", "uva2571", "isu7983", "tu5651", "lsu3733", "usi4420", "hsu3034", "unk6173", "ucla6023", "towson", "utm3428", "uhcpslo", "csumb721", "bvu999", "uwm8101", "lu1473", "ac4560", "ou7888", "SLU4049", "du9458", "rpi2012", "rc5074", "udy6632", "uofl4018", "wu515", "pacific811", "fhsu5007", "xu9207", "uci3299", "msu9047", "ric	e3927", "ac4560", "yu3914", "cmu4936"};
+	String [] schools = {"University of Illinois Urbana-Champaign","Augsburg College","Augsburg College","Buena Vista University","California Polytechnic State Univeristy","California State University - Monterery Bay","Central Michigan University","Duke University","Fort Hays State University","Humboldt State University","Iowa State University","Lehigh University","Louisiana State University","Missouri State University","Pacific University","Rensselaer Polytechnic Institute","Rice University","Rollins College","Saint Louis University","Stanford University","Towson Univeristy","Trinity University","Univeristy of Louisville","Univeristy of Nebraska-Kearney","University of California-Los Angeles","University of Dayton","University of Northern Colorado","University of Oklahoma","University of Pennsylvania","University of Southern Indiana","University of Toronto Mississauga","University of Virginia","University of Wisconsin-Milwaukee","Vista Del Campo Norte","Washburn University","Xavier University","Yeshiva University"};
+	String [] codes = {"urba7723","ac4560","ac4560","bvu999","uhcpslo","csumb721","cmu4936","du9458","fhsu5007","hsu3034","isu7983","lu1473","lsu3733","msu9047","pacific811","rpi2012","ric	e3927","rc5074","SLU4049","STAN9568","towson","tu5651","uofl4018","unk6173","ucla6023","udy6632","unco931","ou7888","penn6389","usi4420","utm3428","uva2571","uwm8101","uci3299","wu515","xu9207","yu3914"};
 
 	int schoolNum;
 	private int last=-1;
@@ -35,6 +37,11 @@ public class SchoolActivity extends ListActivity{
 		ListView lv = getListView();
 		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		lv.setTextFilterEnabled(true);
+		
+		TextView heading = (TextView) findViewById(R.id.listHeading);
+		heading.setText("SELECT SCHOOL");
+		
+		
 		
 		SharedPreferences sp = getSharedPreferences("schoolPref", MODE_WORLD_READABLE);
 	    schoolNum = sp.getInt("mySchool", -1);
@@ -95,6 +102,8 @@ public class SchoolActivity extends ListActivity{
         });
 		
 		Button b = (Button) findViewById(R.id.savePrefBtn);
+		Typeface sego = Typeface.createFromAsset(getAssets(), "sego.ttf");
+		b.setTypeface(sego);
 		b.setOnClickListener(new View.OnClickListener() {
 			
 		@Override

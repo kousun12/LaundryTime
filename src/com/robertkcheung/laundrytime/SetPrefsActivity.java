@@ -17,6 +17,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -25,11 +26,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class SetPrefsActivity extends ListActivity{
 
 	private int last=-1;
 	String schoolCode = "";
+	ListView lv;
 @Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -38,13 +41,20 @@ public class SetPrefsActivity extends ListActivity{
 		ArrayList<Hall> listItems = new ArrayList<Hall>();
 		ArrayAdapter<Hall> ar = new ArrayAdapter<Hall>(this, android.R.layout.simple_list_item_single_choice, listItems);
 		setListAdapter(ar);
-		ListView lv = getListView();
+		lv = getListView();
 		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		lv.setTextFilterEnabled(true);
+		
+		
+		
+		TextView heading = (TextView) findViewById(R.id.listHeading);
+		heading.setText("SELECT HALL");
+		
 		
 		SharedPreferences sp = getSharedPreferences("schoolPref", MODE_WORLD_READABLE);
 	    int hallNum = sp.getInt("myHall", -1);
 	    schoolCode = sp.getString("code", "");
+	    String hallName = sp.getString("hallName", "hallName");
 	    if(hallNum!=-1){
 	    	lv.setItemChecked(hallNum, true);
 	    	last = hallNum;
@@ -101,8 +111,9 @@ public class SetPrefsActivity extends ListActivity{
 		   
         });
 		new LoadListTask().execute();
-		
+		Typeface sego = Typeface.createFromAsset(getAssets(), "sego.ttf");
 		Button b = (Button) findViewById(R.id.savePrefBtn);
+		b.setTypeface(sego);
 		b.setOnClickListener(new View.OnClickListener() {
 			
 		@Override
@@ -114,6 +125,7 @@ public class SetPrefsActivity extends ListActivity{
 			    SharedPreferences sp = getSharedPreferences("schoolPref", MODE_WORLD_READABLE);
 			    Editor spEdit = sp.edit();
 			    spEdit.putInt("myHall", last);
+			    spEdit.putString("hallName", lv.getAdapter().getItem(last).toString());
 			    spEdit.commit();
 				startActivity(i);
 				}
