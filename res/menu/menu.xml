@@ -3,4 +3,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"> 
 	<item android:id ="@+id/reloadButton" android:title ="Reload" android:icon="@drawable/ic_menu_refresh" /> 
 	<item android:id="@+id/changePrefButton" android:title="Change Preferences" android:icon="@drawable/ic_menu_preferences" />
+	<item android:id="@+id/changePrefClearAlarm" android:title="Clear Alarms" />
 	</menu>

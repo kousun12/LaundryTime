@@ -69,7 +69,7 @@ public class DetailAdapter extends ArrayAdapter<Machine> {
 	        machineNumber.setText(currMachine.getMachineNumber()+"");
 	        int left=0;
 	        try{
-	        	if(timeLeft.contains("ago") || timeLeft.contains("Just")){
+	        	if(timeLeft.contains("ago") || timeLeft.contains("just")){
 	        		try{
 	        		left = Integer.parseInt(timeLeft.substring(0, timeLeft.indexOf(" ")));
 	        		}catch(Exception parseexception){
@@ -113,6 +113,8 @@ public class DetailAdapter extends ArrayAdapter<Machine> {
 	        		fetch.setVisibility(View.GONE);
 	        		avail.setVisibility(View.GONE);
 	        		inuse.setVisibility(View.VISIBLE);
+	        		if(statustxt.contains("Add'l") || statustxt.contains("Time"))
+	        			inuse.setText("ADDED TIME");
 	        		progress.setVisibility(View.VISIBLE);
 	        		left = Integer.parseInt(timeLeft.substring(0, timeLeft.indexOf(" ")));
 	        		if(isWasher && left>45){

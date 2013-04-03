@@ -221,6 +221,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int btnDryer=0x7f050022;
         public static final int btnWasher=0x7f05001f;
         public static final int changePrefButton=0x7f05002d;
+        public static final int changePrefClearAlarm=0x7f05002e;
         public static final int dDryer=0x7f050021;
         public static final int dWash=0x7f05001e;
         public static final int detailAvailable=0x7f050016;

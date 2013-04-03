@@ -75,6 +75,7 @@ int id both 0x7f050003
 int id btnDryer 0x7f050022
 int id btnWasher 0x7f05001f
 int id changePrefButton 0x7f05002d
+int id changePrefClearAlarm 0x7f05002e
 int id dDryer 0x7f050021
 int id dWash 0x7f05001e
 int id detailAvailable 0x7f050016

@@ -80,6 +80,20 @@ public class HallActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
+		else if (item.getItemId() == R.id.changePrefClearAlarm) {
+			try {
+				Editor e = sp.edit();
+				e.putBoolean("NotificationDSet", false);
+				e.putBoolean("NotificationWSet", false);
+				e.commit();
+				Toast t = Toast.makeText(getApplicationContext(),
+						"All pending laundry machine alarms cleared", Toast.LENGTH_LONG);
+				t.show();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
 
 		return true;
 	}
@@ -92,9 +106,34 @@ public class HallActivity extends Activity {
 		 sp = getSharedPreferences("schoolPref",
 				MODE_WORLD_READABLE);
 
-
+		 
 		LinearLayout washerLayout = (LinearLayout) findViewById(R.id.washerLayout);
 		
+		boolean isWNotifSet = sp.getBoolean("NotificationWSet", false);
+		if(System.currentTimeMillis()-sp.getLong("lastnotif", System.currentTimeMillis()+3700000)>3600000){
+			Editor e = sp.edit();
+			e.putBoolean("NotificationWSet", false);
+			e.putBoolean("NotificationDSet", false);
+			e.commit();
+		}
+		
+		TextView btnw = (TextView) findViewById(R.id.btnWasher);
+		
+		if(isWNotifSet){
+		btnw.setClickable(false);
+		btnw.setText("NOTIFICATION SET");
+		btnw.setBackgroundColor(getResources().getColor(
+				R.color.sudsdarkgray));
+		}
+		boolean isDNotifSet = sp.getBoolean("NotificationDSet", false);
+		TextView btnd = (TextView) findViewById(R.id.btnWasher);
+		
+		if(isDNotifSet){
+		btnd.setClickable(false);
+		btnd.setText("NOTIFICATION SET");
+		btnd.setBackgroundColor(getResources().getColor(
+				R.color.sudsdarkgray));
+		}
 
 		mPullRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.scrollV);
 		mPullRefreshScrollView.setOnRefreshListener(new OnRefreshListener<ScrollView>() {
@@ -125,6 +164,31 @@ public class HallActivity extends Activity {
 	@Override
 	public void onRestart(){
 		super.onResume();
+		boolean isWNotifSet = sp.getBoolean("NotificationWSet", false);
+		if(System.currentTimeMillis()-sp.getLong("lastnotif", System.currentTimeMillis()+3700000)>3600000){
+			Editor e = sp.edit();
+			e.putBoolean("NotificationWSet", false);
+			e.putBoolean("NotificationDSet", false);
+			e.commit();
+		}
+		
+		TextView btnw = (TextView) findViewById(R.id.btnWasher);
+		
+		if(isWNotifSet){
+		btnw.setClickable(false);
+		btnw.setText("NOTIFICATION SET");
+		btnw.setBackgroundColor(getResources().getColor(
+				R.color.sudsdarkgray));
+		}
+		boolean isDNotifSet = sp.getBoolean("NotificationDSet", false);
+		TextView btnd = (TextView) findViewById(R.id.btnWasher);
+		
+		if(isDNotifSet){
+		btnd.setClickable(false);
+		btnd.setText("NOTIFICATION SET");
+		btnd.setBackgroundColor(getResources().getColor(
+				R.color.sudsdarkgray));
+		}
 		mPullRefreshScrollView.setRefreshing(true);
 	}
 
@@ -170,6 +234,31 @@ public class HallActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			finisheverything();
 			mPullRefreshScrollView.onRefreshComplete();
+			boolean isWNotifSet = sp.getBoolean("NotificationWSet", false);
+			if(System.currentTimeMillis()-sp.getLong("lastnotif", System.currentTimeMillis()+3700000)>3600000){
+				Editor e = sp.edit();
+				e.putBoolean("NotificationWSet", false);
+				e.putBoolean("NotificationDSet", false);
+				e.commit();
+			}
+			
+			TextView btnw = (TextView) findViewById(R.id.btnWasher);
+			
+			if(isWNotifSet){
+			btnw.setClickable(false);
+			btnw.setText("NOTIFICATION SET");
+			btnw.setBackgroundColor(getResources().getColor(
+					R.color.sudsdarkgray));
+			}
+			boolean isDNotifSet = sp.getBoolean("NotificationDSet", false);
+			TextView btnd = (TextView) findViewById(R.id.btnWasher);
+			
+			if(isWNotifSet){
+			btnd.setClickable(false);
+			btnd.setText("NOTIFICATION SET");
+			btnd.setBackgroundColor(getResources().getColor(
+					R.color.sudsdarkgray));
+			}
 			super.onPostExecute(result);
 		}
 	}
@@ -235,6 +324,14 @@ public class HallActivity extends Activity {
 	}
 
 	private class getWashTimes extends AsyncTask<Void, Void, Integer> {
+		
+		private final ProgressDialog pd = new ProgressDialog(HallActivity.this);
+
+		// can use UI thread here
+		protected void onPreExecute() {
+			this.pd.setMessage("Setting Alarm");
+			this.pd.show();
+		}
 
 		protected Integer doInBackground(Void... params) {
 			try {
@@ -276,7 +373,7 @@ public class HallActivity extends Activity {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-			return null;
+			return wminsLeft;
 		}
 
 		protected void onPostExecute(Integer result) {
@@ -285,6 +382,7 @@ public class HallActivity extends Activity {
 			// pp.setChannel("myTestDev");
 			// pp.setMessage(dminsLeft + "until a machine opens");
 			// pp.sendInBackground();
+			pd.dismiss();
 			if (wminsLeft == 120 || result == -1) {
 				Toast errortoast = Toast
 						.makeText(HallActivity.this.getApplicationContext(),
@@ -312,18 +410,28 @@ public class HallActivity extends Activity {
 						"Notification set for " + wminsLeft
 								+ " minutes from now", Toast.LENGTH_LONG);
 				t.show();
-				TextView btn = (TextView) findViewById(R.id.btnDryer);
+				TextView btn = (TextView) findViewById(R.id.btnWasher);
 				btn.setClickable(false);
 				btn.setText("NOTIFICATION SET");
 				btn.setBackgroundColor(getResources().getColor(
 						R.color.sudsdarkgray));
+				Editor e = sp.edit();
+				e.putBoolean("NotificationWSet", true);
+				e.putLong("lastnotif", System.currentTimeMillis());
+				e.commit();
 			}
 		}
 
 	}
 
 	private class getDryTimes extends AsyncTask<Void, Void, Integer> {
+		private final ProgressDialog pd = new ProgressDialog(HallActivity.this);
 
+		// can use UI thread here
+		protected void onPreExecute() {
+			this.pd.setMessage("Setting Alarm");
+			this.pd.show();
+		}
 		protected Integer doInBackground(Void... params) {
 			try {
 				HttpClient client = new DefaultHttpClient();
@@ -356,7 +464,7 @@ public class HallActivity extends Activity {
 				t.show();
 				return -1;
 			}
-			return null;
+			return dminsLeft;
 		}
 
 		protected void onPostExecute(Integer result) {
@@ -365,6 +473,7 @@ public class HallActivity extends Activity {
 			// pp.setChannel("myTestDev");
 			// pp.setMessage(dminsLeft + "until a machine opens");
 			// pp.sendInBackground();
+			pd.dismiss();
 			if (dminsLeft == 120 || result==-1) {
 				Toast errortoast = Toast
 						.makeText(HallActivity.this.getApplicationContext(),
@@ -397,6 +506,10 @@ public class HallActivity extends Activity {
 				btn.setText("NOTIFICATION SET");
 				btn.setBackgroundColor(getResources().getColor(
 						R.color.sudsdarkgray));
+				Editor e = sp.edit();
+				e.putBoolean("NotificationDSet", true);
+				e.putLong("lastnotif", System.currentTimeMillis());
+				e.commit();
 			}
 		}
 
