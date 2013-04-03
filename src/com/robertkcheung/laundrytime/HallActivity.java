@@ -577,6 +577,14 @@ public class HallActivity extends Activity {
 		} catch (NullPointerException npe) {
 
 		}
+		catch(Exception e){
+			e.printStackTrace();
+			Toast errortoast = Toast
+					.makeText(HallActivity.this.getApplicationContext(),
+							"Sorry! ETA currently not available",
+							Toast.LENGTH_LONG);
+			errortoast.show();
+		}
 	}
 	
 	public void onWasherClick(View v){
