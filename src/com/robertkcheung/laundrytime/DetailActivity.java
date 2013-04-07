@@ -148,6 +148,8 @@ public class DetailActivity extends Activity {
 		protected void onPreExecute() {
 			String what = isWasher? "Washing Machine":"Drying Machine";
 			this.pd.setMessage(" Loading "+ what +" Info...");
+			pd.setCancelable(false);
+			pd.setIndeterminateDrawable(getResources().getDrawable(R.drawable.loading));
 			this.pd.show();
 		}
 		@Override

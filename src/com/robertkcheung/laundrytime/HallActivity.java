@@ -270,6 +270,8 @@ public class HallActivity extends Activity {
 		// can use UI thread here
 		protected void onPreExecute() {
 			this.pd.setMessage(" Loading Hall Info...");
+			pd.setCancelable(false);
+			pd.setIndeterminateDrawable(getResources().getDrawable(R.drawable.loading));
 			this.pd.show();
 		}
 
@@ -330,6 +332,8 @@ public class HallActivity extends Activity {
 		// can use UI thread here
 		protected void onPreExecute() {
 			this.pd.setMessage("Setting Alarm");
+			pd.setCancelable(false);
+			pd.setIndeterminateDrawable(getResources().getDrawable(R.drawable.loading));
 			this.pd.show();
 		}
 
@@ -430,6 +434,8 @@ public class HallActivity extends Activity {
 		// can use UI thread here
 		protected void onPreExecute() {
 			this.pd.setMessage("Setting Alarm");
+			pd.setCancelable(false);
+			pd.setIndeterminateDrawable(getResources().getDrawable(R.drawable.loading));
 			this.pd.show();
 		}
 		protected Integer doInBackground(Void... params) {

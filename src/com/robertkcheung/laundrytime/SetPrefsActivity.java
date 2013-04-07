@@ -156,6 +156,8 @@ public class SetPrefsActivity extends ListActivity{
 		protected void onPreExecute() {
 	    	  ((ArrayAdapter<String>)getListAdapter()).clear();
 	         this.pd.setMessage("Loading List...");
+	         pd.setCancelable(false);
+			pd.setIndeterminateDrawable(getResources().getDrawable(R.drawable.loading));
 	         this.pd.show();
 	      }
 	      
