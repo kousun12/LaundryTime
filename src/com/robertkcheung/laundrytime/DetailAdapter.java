@@ -50,7 +50,6 @@ public class DetailAdapter extends ArrayAdapter<Machine> {
 	        TextView inuse = (TextView) convertView.findViewById(R.id.detailinUse);
 	        TextView notresponding = (TextView) convertView.findViewById(R.id.detailNotResponding);
 	        
-	        
 	        Machine currMachine = machineList.get(position);
 	        String timeLeft = currMachine.getTime();
 	        String statustxt = currMachine.getStatus();

@@ -205,17 +205,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int indicator_bg_bottom=0x7f02000f;
         public static final int indicator_bg_top=0x7f020010;
         public static final int linen=0x7f020011;
-        public static final int list_focused_holo=0x7f020012;
-        public static final int list_highlight=0x7f020013;
-        public static final int loading=0x7f020014;
-        public static final int logo=0x7f020015;
-        public static final int logo_long=0x7f020016;
-        public static final int machine=0x7f020017;
-        public static final int no_more_machines_btn=0x7f020018;
-        public static final int reddot=0x7f020019;
-        public static final int smallnotif=0x7f02001a;
-        public static final int washer2=0x7f02001b;
-        public static final int yellowdot=0x7f02001c;
+        public static final int linen_repeat=0x7f020012;
+        public static final int list_focused_holo=0x7f020013;
+        public static final int list_highlight=0x7f020014;
+        public static final int loading=0x7f020015;
+        public static final int logo=0x7f020016;
+        public static final int logo_long=0x7f020017;
+        public static final int machine=0x7f020018;
+        public static final int no_more_machines_btn=0x7f020019;
+        public static final int reddot=0x7f02001a;
+        public static final int smallnotif=0x7f02001b;
+        public static final int washer2=0x7f02001c;
+        public static final int yellowdot=0x7f02001d;
     }
     public static final class id {
         public static final int aroni=0x7f05000d;

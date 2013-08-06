@@ -52,6 +52,7 @@ public class AlarmReciever extends BroadcastReceiver {
 		Editor e = sp.edit();
 		e.putBoolean("NotificationDSet",false);
 		e.putBoolean("NotificationWSet",false);
+		
 		e.commit();
 		manger.notify(NOTIFICATION_ID++, notification);
 		//Toast t = Toast.makeText(context, "WORKEDDDDD", Toast.LENGTH_LONG);

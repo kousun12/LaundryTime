@@ -1,6 +1,7 @@
 package com.robertkcheung.laundrytime;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -11,12 +12,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.text.format.DateUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -24,15 +29,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-public class DetailActivity extends Activity {
+public class DetailActivity extends FragmentActivity {
 	private PullToRefreshListView mPullRefreshListView;
 	private DetailAdapter mAdapter;
 	private String code;
@@ -40,6 +48,8 @@ public class DetailActivity extends Activity {
 	private DetailHall machineList;
 	private String hallName;
 	private boolean isWasher;
+	private SharedPreferences sp;
+	FragmentManager fm;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -49,7 +59,9 @@ public class DetailActivity extends Activity {
 		isWasher = getIntent().getExtras().getBoolean("isWasher");
 		machineList = new DetailHall();
 		mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.detailListView);
-
+		fm = this.getSupportFragmentManager();
+		sp = this.getSharedPreferences("schoolPref", MODE_WORLD_READABLE);
+		
 		// Set a listener to be invoked when the list should be refreshed.
 		mPullRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
@@ -63,6 +75,25 @@ public class DetailActivity extends Activity {
 				// Do work to refresh the list here.
 				new GetDataTask().execute();
 			}
+		});
+		
+		mPullRefreshListView.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				TextView fetch = (TextView) arg1.findViewById(R.id.detail_fetch);
+				TextView notresponding = (TextView) arg1.findViewById(R.id.detailNotResponding);
+				TextView justfinished = (TextView) arg1.findViewById(R.id.detail_just_finished);
+				TextView inuse = (TextView) arg1.findViewById(R.id.detailinUse);
+				TextView avail = (TextView) arg1.findViewById(R.id.detailAvailable);
+				TextView timeremaining = (TextView) arg1.findViewById(R.id.detailTimeRemaining);
+				SetAlarmDialogFragment dialog = new SetAlarmDialogFragment();
+				dialog.show(fm, "ye");
+				if(inuse.getVisibility()==View.VISIBLE){
+				}
+			}
+			
 		});
 
 		
